@@ -1,0 +1,21 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <a class="brand brand-login" href="/" aria-label="Fortis, inicio">
+      <span class="brand-mark" aria-hidden="true">⌁</span><span>FORTIS</span>
+    </a>
+    <h1 id="login-title">Bienvenido</h1>
+    <p class="login-intro">Introduce tus credenciales para acceder</p>
+    <form class="login-form" (submit)="$event.preventDefault()">
+      <label for="email">Correo electrónico</label>
+      <input id="email" type="email" placeholder="tu@email.com" autocomplete="email" />
+      <label for="password">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="••••••••"
+        autocomplete="current-password"
+      />
+      <button class="primary-button login-submit" type="button" disabled>Iniciar sesión</button>
+    </form>
+  </section>
+</main>
