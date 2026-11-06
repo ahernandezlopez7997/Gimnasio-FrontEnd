@@ -15,10 +15,22 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should show the login and enter the selected demo role', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Gimnasio-FrontEnd');
+    expect(compiled.querySelector('#login-title')?.textContent).toContain('Bienvenido');
+
+    const roleButton = Array.from(compiled.querySelectorAll<HTMLButtonElement>('.role-card')).find(
+      (button) => button.textContent?.includes('Socio'),
+    );
+    expect(roleButton).toBeTruthy();
+    roleButton?.click();
+    await fixture.whenStable();
+    compiled.querySelector<HTMLButtonElement>('.demo-submit')?.click();
+    await fixture.whenStable();
+
+    expect(compiled.querySelector('.workspace')).toBeTruthy();
+    expect(compiled.querySelector('.profile-copy small')?.textContent).toContain('Socio');
   });
 });

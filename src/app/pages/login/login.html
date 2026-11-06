@@ -1,21 +1,91 @@
 <main class="login-page">
-  <section class="login-card" aria-labelledby="login-title">
-    <a class="brand brand-login" href="/" aria-label="Fortis, inicio">
-      <span class="brand-mark" aria-hidden="true">⌁</span><span>FORTIS</span>
+  <section class="login-story" aria-label="Bienvenida a Fortis">
+    <a class="brand brand-light" href="/" aria-label="Fortis, inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 13h4l2.2-6 3.6 11 2.2-5H20" />
+        </svg>
+      </span>
+      <span>FORTIS</span>
     </a>
-    <h1 id="login-title">Bienvenido</h1>
-    <p class="login-intro">Introduce tus credenciales para acceder</p>
-    <form class="login-form" (submit)="$event.preventDefault()">
-      <label for="email">Correo electrónico</label>
-      <input id="email" type="email" placeholder="tu@email.com" autocomplete="email" />
-      <label for="password">Contraseña</label>
-      <input
-        id="password"
-        type="password"
-        placeholder="••••••••"
-        autocomplete="current-password"
-      />
-      <button class="primary-button login-submit" type="button" disabled>Iniciar sesión</button>
-    </form>
+
+    <div class="story-copy">
+      <p class="eyebrow">Más fuertes cada día</p>
+      <h1>Tu mejor versión<br />empieza aquí.</h1>
+      <p>Gestiona tu membresía, reserva clases<br class="desktop-break" /> y sigue tu progreso desde un solo lugar.</p>
+    </div>
+
+    <div class="story-stats" aria-label="Fortis en números">
+      <div><strong>126</strong><span>Socios activos</span></div>
+      <div><strong>9</strong><span>Clases semanales</span></div>
+      <div><strong>4</strong><span>Entrenadores</span></div>
+    </div>
+  </section>
+
+  <section class="login-panel" aria-labelledby="login-title">
+    <div class="login-content">
+      <a class="brand brand-mobile" href="/" aria-label="Fortis, inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 13h4l2.2-6 3.6 11 2.2-5H20" />
+          </svg>
+        </span>
+        <span>FORTIS</span>
+      </a>
+
+      <h2 id="login-title">Bienvenido</h2>
+      <p class="login-intro">Introduce tus credenciales para acceder</p>
+
+      <div class="login-form">
+        <label for="email">Correo electrónico</label>
+        <input id="email" type="email" placeholder="tu@email.com" autocomplete="email" />
+
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        <button class="forgot-link" type="button" (click)="showResetMessage()">
+          ¿Olvidaste tu contraseña?
+        </button>
+      </div>
+
+      <button class="primary-button login-submit" type="button" disabled>
+        Iniciar sesión
+      </button>
+      <p class="backend-note">El acceso con credenciales estará disponible al conectar el backend.</p>
+
+      <div class="demo-divider"><span>O PRUEBA LA DEMO</span></div>
+      <p class="demo-title">Selecciona un perfil</p>
+      <div class="role-options">
+        @for (role of roles; track role.name) {
+          <button
+            class="role-card"
+            [class.role-card-selected]="selectedRole() === role.name"
+            [attr.aria-pressed]="selectedRole() === role.name"
+            type="button"
+            (click)="selectRole(role.name)"
+          >
+            <span class="role-name">{{ role.name }}</span>
+            <span>{{ role.description }}</span>
+          </button>
+        }
+      </div>
+
+      <button
+        class="primary-button demo-submit"
+        type="button"
+        [disabled]="!selectedRole()"
+        (click)="enterDemo()"
+      >
+        {{ selectedRole() ? 'Entrar como ' + selectedRole() : 'Selecciona un perfil para continuar' }}
+      </button>
+
+      @if (notice()) {
+        <p class="login-notice" role="status">{{ notice() }}</p>
+      }
+    </div>
   </section>
 </main>

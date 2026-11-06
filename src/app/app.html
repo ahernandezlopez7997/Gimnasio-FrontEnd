@@ -1,12 +1,6 @@
-<main>
-<!--  Actualmente esto esta linkeado-->
-<!--  Falta asignar botones respectivamente o mapearlos-->
+@if (currentRole(); as role) {
+  <app-home [role]="role" (logout)="closeSession()" />
+} @else {
   <app-welcome/>
-  <app-login/>
-  <app-home/>
-  <app-acceso/>
-  <app-actividades/>
-  <app-cuotas/>
-  <app-monitores/>
-  <app-planes/>
-</main>
+<!--  <app-login (demoLogin)="openDemo($event)" />-->
+}

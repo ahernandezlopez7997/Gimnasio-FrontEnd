@@ -1,1 +1,159 @@
-<p>home works!</p>
+<div class="workspace">
+  <aside class="sidebar" aria-label="Navegación principal">
+    <a class="workspace-brand" href="/" aria-label="Fortis, inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 13h4l2.2-6 3.6 11 2.2-5H20" />
+        </svg>
+      </span>
+      <span class="brand-copy"><strong>FORTIS</strong><small>Gimnasio</small></span>
+    </a>
+
+    <div class="sidebar-section-label">MENÚ PRINCIPAL</div>
+    <nav class="main-nav">
+      @for (item of navigation(); track item.label) {
+        <button
+          class="nav-link"
+          [class.nav-link-active]="activePage() === item.label"
+          [attr.aria-current]="activePage() === item.label ? 'page' : null"
+          type="button"
+          (click)="selectPage(item.label)"
+        >
+          <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </button>
+      }
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="profile">
+        <span class="avatar">CM</span>
+        <span class="profile-copy"><strong>Carlos Martínez</strong><small>{{ role() }}</small></span>
+      </div>
+      <button class="logout-button" type="button" (click)="logout.emit()">
+        <span aria-hidden="true">↪</span>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <header class="topbar">
+      <div>
+        <h1>{{ activePage() }}</h1>
+        <p>{{ today }}</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="notification-button" type="button" aria-label="Notificaciones">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+            <path d="M10 21h4" />
+          </svg>
+          <span></span>
+        </button>
+        <div class="topbar-user">
+          <strong>Carlos Martínez</strong>
+          <small>{{ role() }}</small>
+        </div>
+        <span class="avatar avatar-small">CM</span>
+      </div>
+    </header>
+
+    <div class="page-content">
+      @if (activePage() === 'Inicio') {
+        <section class="welcome-banner" aria-labelledby="welcome-heading">
+          <div class="welcome-copy">
+            <p>Buenos días,</p>
+            <h2 id="welcome-heading">Carlos Martínez</h2>
+            <span>{{ role() === 'Socio' ? 'Socio Premium · Activo hasta el 15 nov 2026' : 'Panel de gestión · Gimnasio Fortis' }}</span>
+          </div>
+          <span class="welcome-pill">Todo listo para entrenar</span>
+        </section>
+
+        <section class="stats-grid" aria-label="Resumen del mes">
+          <article class="stat-card">
+            <span class="stat-label">{{ role() === 'Socio' ? 'SESIONES ESTE MES' : 'ACTIVIDAD DEL MES' }}</span>
+            <strong>12</strong>
+            <span class="stat-foot"><span class="trend">↗</span> +3 vs. mes anterior</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">{{ role() === 'Socio' ? 'RACHA ACTUAL' : 'CLASES ESTA SEMANA' }}</span>
+            <strong>{{ role() === 'Socio' ? '5' : '9' }}</strong>
+            <span class="stat-foot">{{ role() === 'Socio' ? 'días consecutivos' : 'en el calendario' }}</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">{{ role() === 'Socio' ? 'CLASES RESERVADAS' : 'PENDIENTES' }}</span>
+            <strong>3</strong>
+            <span class="stat-foot">{{ role() === 'Socio' ? 'próximas / 7 días' : 'requieren seguimiento' }}</span>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="content-card next-class-card">
+            <div class="card-heading">
+              <div>
+                <span class="section-kicker">{{ role() === 'Socio' ? 'PRÓXIMA CLASE' : 'PRÓXIMA ACTIVIDAD' }}</span>
+                <h3>{{ role() === 'Socio' ? 'Tu entrenamiento' : 'Agenda de hoy' }}</h3>
+              </div>
+              <button class="text-action" type="button" (click)="selectPage(role() === 'Socio' ? 'Horario' : 'Actividades')">
+                Ver agenda <span aria-hidden="true">→</span>
+              </button>
+            </div>
+
+            <div class="class-detail">
+              <span class="class-avatar">SP</span>
+              <div class="class-info">
+                <strong>Spinning</strong>
+                <span>Lunes · 07:00 · Sala 1</span>
+              </div>
+              <span class="class-status">Confirmada</span>
+            </div>
+            <p class="trainer-line">Entrenador: Roberto Silva</p>
+
+            <div class="upcoming-row">
+              <span class="upcoming-day"><strong>MIÉ</strong><small>14</small></span>
+              <span><strong>Yoga &amp; movilidad</strong><small>18:30 · Sala 2</small></span>
+              <span class="upcoming-time">18:30</span>
+            </div>
+          </article>
+
+          @if (role() === 'Socio') {
+            <article class="membership-card">
+              <span class="section-kicker">MI MEMBRESÍA</span>
+              <span class="plan-tag">Premium</span>
+              <p class="membership-price">49,99 €<small>/mes</small></p>
+              <ul>
+                <li>Acceso ilimitado</li>
+                <li>Clases grupales incluidas</li>
+                <li>Vestuario premium</li>
+              </ul>
+              <p class="membership-expiry">Vence: <strong>15 nov 2026</strong></p>
+            </article>
+          } @else {
+            <article class="operations-card">
+              <span class="section-kicker">ESTADO DEL GIMNASIO</span>
+              <h3>Todo en orden</h3>
+              <p>El centro está operativo y preparado para recibir a los socios.</p>
+              <div class="operation-status"><span></span> Abierto · Cierra a las 22:00</div>
+              <div class="operations-footer"><span>Personal en turno</span><strong>4 personas</strong></div>
+            </article>
+          }
+        </section>
+      } @else {
+        <section class="section-preview" aria-live="polite">
+          <span class="section-kicker">ÁREA DE {{ role() }}</span>
+          <h2>{{ activePage() }}</h2>
+          <p>Esta sección formará parte de tu espacio de {{ role().toLowerCase() }}.</p>
+          <div class="preview-placeholder">
+            <span class="preview-icon" aria-hidden="true">✦</span>
+            <h3>Tu espacio, a un paso</h3>
+            <p>La estructura visual está preparada. Aquí conectaremos la información y las acciones del backend.</p>
+            <button type="button" class="return-button" (click)="selectPage('Inicio')">Volver al inicio</button>
+          </div>
+        </section>
+      }
+
+      <footer class="page-footer">© 2026 Fortis Fitness <span>Entrena, mejora, repite.</span></footer>
+    </div>
+  </main>
+</div>

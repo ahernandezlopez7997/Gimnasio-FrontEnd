@@ -1,20 +1,22 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Login } from './pages/login/login';
-import { Welcome } from './pages/welcome/welcome';
 import { Home } from './pages/home/home';
-import { Acceso } from './pages/acceso/acceso';
-import { Actividades } from './pages/actividades/actividades';
-import { Cuotas } from './pages/cuotas/cuotas';
-import { Monitores } from './pages/monitores/monitores';
-import { Planes } from './pages/planes/planes';
+import { Welcome } from './pages/welcome/welcome';
 
 @Component({
-  imports: [RouterOutlet, Login, Welcome, Home, Acceso, Actividades, Cuotas, Monitores, Planes],
+  imports: [Login, Home, Welcome],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('Gimnasio-FrontEnd');
+  protected readonly currentRole = signal<string | null>(null);
+
+  protected openDemo(role: string): void {
+    this.currentRole.set(role);
+  }
+
+  protected closeSession(): void {
+    this.currentRole.set(null);
+  }
 }
